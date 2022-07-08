@@ -58,20 +58,14 @@ int main(int argc, char* argv[]) {
 				for (const auto x: value_pair) {
 					if (t == 1) {
 						name1 = x.first;
-						const auto value_pt = x.second;
-						int c = 0;
-						for (boost::property_tree::ptree::const_iterator it = value_pt.begin(); it != value_pt.end(); ++it) {
-							const auto value = it->second;
-							cout << ++c << endl;
+						boost::property_tree::ptree value_pt = x.second;
+						for(boost::property_tree::ptree::const_iterator v = value_pt.begin(); v != value_pt.end(); ++v) {
 						}
 						cout << name1 << endl;
 					} else if (t == 0) {
 						name1 = x.first;
-						const auto value_pt = x.second;
-						int c = 0;
-						for (boost::property_tree::ptree::const_iterator it = value_pt.begin(); it != value_pt.end(); ++it) {
-							const auto value = it->second;
-							cout << ++c << endl;
+						boost::property_tree::ptree value_pt = x.second;
+						for(boost::property_tree::ptree::const_iterator v = value_pt.begin(); v != value_pt.end(); ++v) {
 						}
 						cout << name1 << endl;
 					}
