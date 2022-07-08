@@ -22,15 +22,15 @@ class JSON_Obj {
 		JSON_Obj(char* f);
 		void upload_contents();
 		boost::property_tree::ptree& getPropertyTree();
-		std::unordered_map<std::string, vector<std::string>* >* parsePropertyTree();
+		std::unordered_map<std::string, vector<char** >* >* parsePropertyTree();
 };
 
 JSON_Obj::JSON_Obj(char* f) {
 	this->json_file = f;
 }
 
-std::unordered_map<std::string, vector<std::string>* >* JSON_Obj::parsePropertyTree() {
-	std::unordered_map<std::string, vector<std::string>* >* attribute_map = (std::unordered_map<std::string, vector<std::string>* >*) calloc(1, sizeof(std::unordered_map<std::string, vector<std::string>* >));
+std::unordered_map<std::string, vector<char** >* >* JSON_Obj::parsePropertyTree() {
+	std::unordered_map<std::string, vector<char** >* >* attribute_map = (std::unordered_map<std::string, vector<char** >* >*) calloc(1, sizeof(std::unordered_map<std::string, vector<char** >* >));
 	boost::property_tree::ptree& pt = this->getPropertyTree();
 	for(boost::property_tree::ptree::const_iterator v = pt.begin(); v != pt.end(); ++v) {
 		std::string label = v->first;
@@ -41,27 +41,58 @@ std::unordered_map<std::string, vector<std::string>* >* JSON_Obj::parsePropertyT
 				std::string name1 = "";
 				std::string name2 = "";
 				int t = 0;
+				std::string label = "";
+				std::string val1 = "";
+				std::string val2 = "";
 				for (const auto& x: value_pair) {
 					if (t == 1) {
 						name1 = x.first;
 						const auto& value_pt = x.second;
+						int g = 0;
 						for (const auto& r: value_pt) {
 							boost::property_tree::ptree val_node = r.second;
 							for (const auto& h: val_node) {
-								cout << h.second.get_value<std::string>() << endl;
+								if (g == 0) {
+									if (val1 != "" && val2 != "") {
+										std::unordered_map<std::string, vector<char** >* >::iterator it = attribute_map->find(label);
+										std::vector<char** >* value_array = (*it).second;
+										char** val_2 = (char**) calloc(2, sizeof(char*));
+										val_2[0] = (char*) calloc(val1.size()+1, sizeof(char));
+										val_2[0]= strdup((char*)val1.c_str());
+										val_2[1] = (char*) calloc(val2.size()+1, sizeof(char));
+										val_2[1]= strdup((char*)val2.c_str());
+									}
+									val1 = h.second.get_value<std::string>();
+								} else if (g == 1) {
+									val2 = h.second.get_value<std::string>();
+								}
+								cout << g << "\t" << h.second.get_value<std::string>() << endl;
+								g = 1 - g;
+							}
+							if (val1 != "" && val2 != "") {
+								std::unordered_map<std::string, vector<char** >* >::iterator it = attribute_map->find(label);
+								std::vector<char** >* value_array = (*it).second;
+								char** val_2 = (char**) calloc(2, sizeof(char*));
+								val_2[0] = (char*) calloc(val1.size()+1, sizeof(char));
+								val_2[0]= strdup((char*)val1.c_str());
+								val_2[1] = (char*) calloc(val2.size()+1, sizeof(char));
+								val_2[1]= strdup((char*)val2.c_str());
 							}
 						}
 					} else if (t == 0) {
 						name1 = x.first;
 						boost::property_tree::ptree value_pt = x.second;
-						cout << value_pt.data() << endl;
-						attribute_map->insert(std::make_pair(value_pt.data(), nullptr));
+						label = value_pt.data();
+						vector<char** >* values = (vector<char** >* ) calloc(1, sizeof(vector<char** >));
+						attribute_map->insert(std::make_pair(value_pt.data(), values));
 					}
 					t = 1 - t;
+					cout << endl;
 				}
 			}
 		}
 	}
+	return attribute_map;
 }
 
 void JSON_Obj::upload_contents() {
