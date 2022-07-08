@@ -45,9 +45,32 @@ int main(int argc, char* argv[]) {
 	JSON_Obj* main_obj = new JSON_Obj(argv[1]);
 	main_obj->upload_contents();
 	boost::property_tree::ptree pt = main_obj->getPropertyTree();
-	boost::property_tree::ptree attribute_node = pt.get_child("attributes");
-	boost::property_tree::ptree value_node = attribute_node.get_child("values");
-	BOOST_FOREACH(boost::property_tree::ptree::value_type const& v, value_node) {
+	for(boost::property_tree::ptree::const_iterator v = pt.begin(); v != pt.end(); ++v) {
+		std::string label = v->first;
+		const auto value_node = v->second;
+		if (label == "attributes") {
+			for (const auto x: value_node) {
+				const auto value_pair = x.second;
+				std::string name1 = "";
+				std::string name2 = "";
+				int t = 0;
+				for (const auto x: value_pair) {
+					if (t == 1) {
+						name1 = x.first;
+						const auto value_pt = x.second;
+						for (const auto y: value_pt) {
+							const auto yt = y.second;
+							for (const auto k: yt) {
+							}
+						}
+					} else if (t == 0) {
+						name1 = x.first;
+						//cout << name1 << endl;
+					}
+					t = 1 - t;
+				}
+			}
+		}
 	}
 	return 0;
 }
