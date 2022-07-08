@@ -60,12 +60,14 @@ int main(int argc, char* argv[]) {
 						name1 = x.first;
 						boost::property_tree::ptree value_pt = x.second;
 						for(boost::property_tree::ptree::const_iterator v = value_pt.begin(); v != value_pt.end(); ++v) {
+							const auto label = v->second;
 						}
 						cout << name1 << endl;
 					} else if (t == 0) {
 						name1 = x.first;
 						boost::property_tree::ptree value_pt = x.second;
 						for(boost::property_tree::ptree::const_iterator v = value_pt.begin(); v != value_pt.end(); ++v) {
+							const auto label = v->second;
 						}
 						cout << name1 << endl;
 					}
