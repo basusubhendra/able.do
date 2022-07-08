@@ -1,5 +1,5 @@
 {
-    "name": "Lightning Cable",
+    "name": "Tshirt",
     "attributes": [
         {
             "name": "color",
@@ -19,33 +19,20 @@
             ]
         },
         {
-            "name": "length",
+            "name": "size",
             "values": [
                 {
-                  "name": "1m",
+                  "name": "S",
                   "active": true
                 },
                 {
-                  "name": "3m",
-                  "active": true
+                  "name": "M",
+                  "active": false
                 },
                 {
-                  "name": "6m",
+                  "name": "L",
                   "active": true
                 }
-            ]
-        },
-        {
-            "name": "finish",
-            "values": [
-              {
-                "name": "nylon",
-                "active": true
-              },
-              {
-                "name": "rubber",
-                "active": false
-              }
             ]
         }
     ]

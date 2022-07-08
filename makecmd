@@ -1,1 +1,1 @@
-g++ `getconf LFS_CFLAGS` -o generate_combinations generate_combinations.cpp
+g++ -std=c++11 -DBOOST_BIND_GLOBAL_PLACEHOLDERS -o generate_combinations generate_combinations.cpp
