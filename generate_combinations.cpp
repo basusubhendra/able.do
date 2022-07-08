@@ -58,9 +58,11 @@ int main(int argc, char* argv[]) {
 					if (t == 1) {
 						name1 = x.first;
 						const auto value_pt = x.second;
+						cout << name1 << endl;
 					} else if (t == 0) {
 						name1 = x.first;
-						//cout << name1 << endl;
+						const auto value_pt_2 = x.second;
+						cout << name1 << endl;
 					}
 					t = 1 - t;
 				}
