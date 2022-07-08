@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <string>
 #include <iostream>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
@@ -58,10 +59,14 @@ int main(int argc, char* argv[]) {
 					if (t == 1) {
 						name1 = x.first;
 						const auto value_pt = x.second;
+						for (boost::property_tree::ptree::const_iterator it = value_pt.begin(); it != value_pt.end(); ++it) {
+						}
 						cout << name1 << endl;
 					} else if (t == 0) {
 						name1 = x.first;
-						const auto value_pt_2 = x.second;
+						const auto value_pt = x.second;
+						for (boost::property_tree::ptree::const_iterator it = value_pt.begin(); it != value_pt.end(); ++it) {
+						}
 						cout << name1 << endl;
 					}
 					t = 1 - t;
