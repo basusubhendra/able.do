@@ -58,11 +58,6 @@ int main(int argc, char* argv[]) {
 					if (t == 1) {
 						name1 = x.first;
 						const auto value_pt = x.second;
-						for (const auto y: value_pt) {
-							const auto yt = y.second;
-							for (const auto k: yt) {
-							}
-						}
 					} else if (t == 0) {
 						name1 = x.first;
 						//cout << name1 << endl;
