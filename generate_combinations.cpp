@@ -59,15 +59,19 @@ int main(int argc, char* argv[]) {
 					if (t == 1) {
 						name1 = x.first;
 						const auto value_pt = x.second;
+						int c = 0;
 						for (boost::property_tree::ptree::const_iterator it = value_pt.begin(); it != value_pt.end(); ++it) {
 							const auto value = it->second;
+							cout << ++c << endl;
 						}
 						cout << name1 << endl;
 					} else if (t == 0) {
 						name1 = x.first;
 						const auto value_pt = x.second;
+						int c = 0;
 						for (boost::property_tree::ptree::const_iterator it = value_pt.begin(); it != value_pt.end(); ++it) {
 							const auto value = it->second;
+							cout << ++c << endl;
 						}
 						cout << name1 << endl;
 					}
