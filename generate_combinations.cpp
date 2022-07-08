@@ -45,31 +45,30 @@ void print_contents(const boost::property_tree::ptree& pt) {
 int main(int argc, char* argv[]) {
 	JSON_Obj* main_obj = new JSON_Obj(argv[1]);
 	main_obj->upload_contents();
-	boost::property_tree::ptree pt = main_obj->getPropertyTree();
+	boost::property_tree::ptree& pt = main_obj->getPropertyTree();
 	for(boost::property_tree::ptree::const_iterator v = pt.begin(); v != pt.end(); ++v) {
 		std::string label = v->first;
-		const auto value_node = v->second;
+		const auto& value_node = v->second;
 		if (label == "attributes") {
-			for (const auto x: value_node) {
-				const auto value_pair = x.second;
+			for (const auto& x: value_node) {
+				const auto& value_pair = x.second;
 				std::string name1 = "";
 				std::string name2 = "";
 				int t = 0;
-				for (const auto x: value_pair) {
+				for (const auto& x: value_pair) {
 					if (t == 1) {
 						name1 = x.first;
-						boost::property_tree::ptree value_pt = x.second;
-						for(boost::property_tree::ptree::const_iterator v = value_pt.begin(); v != value_pt.end(); ++v) {
-							const auto label = v->second;
+						const auto& value_pt = x.second;
+						for (const auto& r: value_pt) {
+							boost::property_tree::ptree val_node = r.second;
+							for (const auto& h: val_node) {
+								cout << h.second.get_value<std::string>() << endl;
+							}
 						}
-						cout << name1 << endl;
 					} else if (t == 0) {
 						name1 = x.first;
 						boost::property_tree::ptree value_pt = x.second;
-						for(boost::property_tree::ptree::const_iterator v = value_pt.begin(); v != value_pt.end(); ++v) {
-							const auto label = v->second;
-						}
-						cout << name1 << endl;
+						cout << value_pt.data() << endl;
 					}
 					t = 1 - t;
 				}
