@@ -115,5 +115,8 @@ int main(int argc, char* argv[]) {
 	JSON_Obj* main_obj = new JSON_Obj(argv[1]);
 	main_obj->upload_contents();
 	main_obj->parsePropertyTree();
+	std::unordered_map<std::string, vector<char** >* >* attribute_map =  main_obj->parsePropertyTree();
+	long number_of_attributes = attribute_map->size();
+	cout << number_of_attributes << endl;
 	return 0;
 }
