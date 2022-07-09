@@ -1,18 +1,18 @@
-#include <string>
-#include <set>
-#include <exception>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <string>
-#include <vector>
-#include <iostream>
+#include <gmp.h>
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/foreach.hpp>
 #include <boost/lexical_cast.hpp>
+#include <string>
+#include <set>
+#include <exception>
+#include <string>
+#include <vector>
+#include <iostream>
 #include <algorithm>
-#include <gmp.h>
 #include <unordered_map>
 using namespace std;
 using boost::property_tree::ptree;
