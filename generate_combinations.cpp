@@ -210,13 +210,18 @@ int main(int argc, char* argv[]) {
 	}
 	long max_attributes = atoi(argv[2]);
 	long max_attributes_per_value = atoi(argv[3]);
+	//Initialize main JSON object that holds the file
 	JSON_Obj* main_obj = new JSON_Obj(argv[1], max_attributes, max_attributes_per_value);
+	//Upload contents of the file pointed by the filename
+	//into the JSON Object
 	main_obj->upload_contents();
 	char** attributes = nullptr;
 	char*** values = nullptr;
 	long* value_counts1 = nullptr;
 	long* value_counts2 = nullptr;
 	char*** active_attributes = nullptr;
+	//Parse JSON Tree into character pointer 
+	//Data Structures
 	void* ret =  main_obj->parsePropertyTree(attributes, value_counts1, value_counts2, values, active_attributes);
 	long number_of_attributes = 0;
 	for (int i = 0; i < main_obj->get_max_attributes(); ++i) {
@@ -228,6 +233,7 @@ int main(int argc, char* argv[]) {
 	cout << number_of_attributes << endl;
 #endif
 	vector<char*> combinations;
+	//Generate Combination Codes to be Enumerated in Later Step
 	main_obj->generate_combinations(value_counts2, number_of_attributes, combinations, active_attributes);
 #ifdef _DEBUG
 	for (int i = 0; i < combinations.size(); ++i) {
@@ -235,6 +241,7 @@ int main(int argc, char* argv[]) {
 	}
 #endif
 	long num_of_combinations = combinations.size();
+	//Generate the Combinations Themselves from the code
 	main_obj->print_combinations(combinations, num_of_combinations, number_of_attributes, attributes);
 	return 0;
 }

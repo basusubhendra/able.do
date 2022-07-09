@@ -1,1 +1,1 @@
-g++ -g -std=c++11 -DBOOST_BIND_GLOBAL_PLACEHOLDERS -o generate_combinations generate_combinations.cpp -lgmp -lboost_system
+g++ -Ofast -std=c++11 -DBOOST_BIND_GLOBAL_PLACEHOLDERS -o generate_combinations generate_combinations.cpp -lgmp -lboost_system
