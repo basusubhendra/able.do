@@ -44,6 +44,7 @@ long JSON_Obj::get_max_attributes() {
 	return max_attributes;
 }
 
+//print the combinations from the combination codes
 void* JSON_Obj::print_combinations(vector<char*> combinations, long num_of_combinations, long number_of_attributes, char** attributes) {
 	cout << "\nTotal\t" << num_of_combinations << endl;
 	for (int x = 0; x < num_of_combinations; ++x) {
@@ -64,6 +65,7 @@ long JSON_Obj::get_max_values_per_attribute() {
 	return max_values_per_attribute;
 }
 
+//generate combination codes
 void* JSON_Obj::generate_combinations(long* value_counts2, long number_of_attributes, vector<char*>& combinations, char*** active_attributes) {
 	long max_val = -1;
 	for (long i = 0; i < number_of_attributes; ++i) {
@@ -108,6 +110,8 @@ void* JSON_Obj::generate_combinations(long* value_counts2, long number_of_attrib
 	return nullptr;
 }
 
+//Convert the JSON Tree by traversing it into
+//multiple character arrays
 void* JSON_Obj::parsePropertyTree(char**& attributes, long*& value_counts1, long*& value_counts2, char***& values, char***& active_attributes) {
 	attributes = (char**) calloc(max_attributes, sizeof(char*)); 
 	value_counts1 = (long*) calloc(max_attributes, sizeof(long));
@@ -185,15 +189,19 @@ void* JSON_Obj::parsePropertyTree(char**& attributes, long*& value_counts1, long
 	return nullptr;
 }
 
+//Upload JSON FILE into tree data structure
 void JSON_Obj::upload_contents() {
 	boost::property_tree::read_json(json_file, pt);
 }
 
+//Returns the root node of the JSON Property Tree
 boost::property_tree::ptree& JSON_Obj::getPropertyTree() {
 	return this->pt;
 }
 
 #ifdef _DEBUG
+//Takes as input the property tree
+//Prints out all the nodes of the property tree
 void print_contents(const boost::property_tree::ptree& pt) {
 	using boost::property_tree::ptree;
 	for (const auto& x: pt ) {
