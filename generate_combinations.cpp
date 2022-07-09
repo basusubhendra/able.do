@@ -101,7 +101,7 @@ void* JSON_Obj::generate_combinations(long* value_counts2, long number_of_attrib
 				}
 			}
 		}
-		if (hit == 3) {
+		if (hit == number_of_attributes) {
 			combinations.push_back(range_of_integers[i]);
 		}
 	}
