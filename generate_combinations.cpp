@@ -205,7 +205,7 @@ void print_contents(const boost::property_tree::ptree& pt) {
 
 int main(int argc, char* argv[]) {
 	if (argc < 4) {
-		printf("\nUsage: ./generate_combinations ./input.json 10 20\n");
+		printf("\nUsage: ./generate_combinations <json file name> <max number of attributes> <max values per attribute>\n");
 		exit(3);
 	}
 	long max_attributes = atoi(argv[2]);
