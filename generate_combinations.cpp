@@ -10,6 +10,9 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <boost/property_tree/ptree.hpp>
 #include <boost/foreach.hpp>
+#include <boost/lexical_cast.hpp>
+#include <gmp.h>
+#include <algorithm>
 using namespace std;
 using boost::property_tree::ptree;
 
@@ -42,6 +45,23 @@ long JSON_Obj::get_max_values_per_attribute() {
 	return max_values_per_attribute;
 }
 
+char* _bin(long x) {
+	if (x == 0) {
+		char* ret = (char*) calloc(2, sizeof(char));
+		ret[0] = '0';
+		ret[1] = '\0';
+		return ret;
+	}
+	std::string ss = "";
+	while (x > 0) {
+		int rem = x % 2;
+		ss += boost::lexical_cast<std::string>(rem);
+		x /= 2;
+	}
+	std::reverse(ss.begin(), ss.end());
+	return strdup((char*) ss.c_str());
+}
+
 void* JSON_Obj::parsePropertyTree(char**& attributes, char***& values, char***& active_attributes) {
 	attributes = (char**) calloc(max_attributes, sizeof(char*)); 
 	values = (char***) calloc(max_attributes, sizeof(char**));
@@ -58,9 +78,7 @@ void* JSON_Obj::parsePropertyTree(char**& attributes, char***& values, char***& 
 		std::string label = v->first;
 		const auto& value_node = v->second;
 		if (label == "name") {
-			++attribute_count;
 		} else if (label == "attributes") {
-			long value_count = 0;
 			for (const auto& x: value_node) {
 				const auto& value_pair = x.second;
 				std::string name1 = "";
@@ -74,6 +92,7 @@ void* JSON_Obj::parsePropertyTree(char**& attributes, char***& values, char***& 
 						name1 = x.first;
 						const auto& value_pt = x.second;
 						int g = 0;
+						long value_count = 0;
 						for (const auto& r: value_pt) {
 							boost::property_tree::ptree val_node = r.second;
 							for (const auto& h: val_node) {
@@ -103,6 +122,7 @@ void* JSON_Obj::parsePropertyTree(char**& attributes, char***& values, char***& 
 							}
 						}
 					} else if (t == 0) {
+						++attribute_count;
 						name1 = x.first;
 						boost::property_tree::ptree value_pt = x.second;
 						label = value_pt.data();
@@ -143,10 +163,30 @@ int main(int argc, char* argv[]) {
 	void* ret =  main_obj->parsePropertyTree(attributes, values, active_attributes);
 	long number_of_attributes = 0;
 	for (int i = 0; i < main_obj->get_max_attributes(); ++i) {
-	       if (attributes[i] != nullptr) {
-	            ++number_of_attributes;
-	       }
+		if (attributes[i] != nullptr) {
+			++number_of_attributes;
+		}
 	}	       
 	cout << number_of_attributes << endl;
+	mpz_t pz;
+	mpz_init(pz);
+	mpz_ui_pow_ui(pz, 2, number_of_attributes);
+	long total_combinations = mpz_get_ui(pz);
+	cout << "\nTotal\t" << total_combinations << endl;
+	for (int x = 1; x < total_combinations; ++x) {
+		char* _bin_code = _bin(x);
+		long l_bin_code = strlen(_bin_code);
+		for (int y = 0; y < l_bin_code; ++y) {
+			int bk = _bin_code[y] - '0';
+			if (bk == '1' && strcmp(active_attributes[y][y],"active") == 0) {
+				if (y == (l_bin_code - 1)) {
+					cout << attributes[y] << "\t:\t" << values[y][y] << endl; 
+				} else {
+					cout << attributes[y] << "\t:\t" << values[y][y] << "\t|\t";
+				}
+			}	
+		}
+	}
+	cout << endl;
 	return 0;
 }
